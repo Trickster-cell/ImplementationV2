@@ -27,8 +27,8 @@ class SegmentationHead(nn.Module):
 
 
   def forward(self,x):
-    utils.reset(self.lif1)
-    utils.reset(self.lif2)
+    # utils.reset(self.lif1)
+    # utils.reset(self.lif2)
     x=torch.cat(x, dim=1)
     x=self.dense1(x)
     x = self.lif1(x)

@@ -57,7 +57,7 @@ class SegFormerModel(pl.LightningModule):
         '''
         spk_rec = []
 
-        utils.reset(self.model)  # resets hidden states for all LIF neurons in net
+        # utils.reset(self.model)  # resets hidden states for all LIF neurons in net
         data = data.permute(1,0,2,3,4)
         for step in range(num_steps):
             spk_out = self.model(data[step])
@@ -118,6 +118,10 @@ class SegFormerModel(pl.LightningModule):
         # torch.cuda.empty_cache()
         return loss_val, acc
 
+    def backward(self, loss):
+        loss.backward()
+        utils.reset(self.model)
+
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)
         # scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=config.lr_factor, patience=config.lr_patience, verbose=True)
@@ -128,9 +132,11 @@ class SegFormerModel(pl.LightningModule):
 
 
     def training_step(self, batch, batch_idx):
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
         train_image, train_segment = batch
         train_loss, train_accuracy = self.process(train_image, train_segment)
+
+        # utils.reset(self.model)
         # torch.cuda.empty_cache()
         self.log('train_loss', train_loss, on_step=False, on_epoch=True, prog_bar=True)
         self.log('train_accuracy', train_accuracy, on_step=False, on_epoch=True, prog_bar=True)
@@ -139,7 +145,7 @@ class SegFormerModel(pl.LightningModule):
 
 
     def validation_step(self, batch, batch_idx):
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
         val_image, val_segment = batch
         val_loss, val_accuracy = self.process(val_image, val_segment)
         self.log('val_loss', val_loss, on_step=False, on_epoch=True, prog_bar=True)

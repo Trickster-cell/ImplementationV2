@@ -66,7 +66,7 @@ class SegFormerModel(pl.LightningModule):
 
 
     def training_step(self, batch, batch_idx):
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
         train_image, train_segment = batch
         train_loss, train_accuracy = self.process(train_image, train_segment)
         # torch.cuda.empty_cache()
@@ -77,7 +77,7 @@ class SegFormerModel(pl.LightningModule):
 
 
     def validation_step(self, batch, batch_idx):
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
         val_image, val_segment = batch
         val_loss, val_accuracy = self.process(val_image, val_segment)
         self.log('val_loss', val_loss, on_step=False, on_epoch=True, prog_bar=True)

@@ -35,12 +35,12 @@ class Mix_FFN(nn.Module):
 
   def forward(self,x):
     # utils.reset(self.dense1)
-    utils.reset(self.lif1)
-    # utils.reset(self.conv)
-    utils.reset(self.lif2)
-    # utils.reset(self.gelu)
-    # utils.reset(self.dense2)
-    utils.reset(self.lif3)
+    # utils.reset(self.lif1)
+    # # utils.reset(self.conv)
+    # utils.reset(self.lif2)
+    # # utils.reset(self.gelu)
+    # # utils.reset(self.dense2)
+    # utils.reset(self.lif3)
     x=self.dense1(x)
     x=self.lif1(x)
     x=self.conv(x)
@@ -49,5 +49,5 @@ class Mix_FFN(nn.Module):
     x=self.dense2(x)
     x=self.lif3(x)
     x=x[0]
-    # print(x.shape)
+    print("ffn",x.shape)
     return x

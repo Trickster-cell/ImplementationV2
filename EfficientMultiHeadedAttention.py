@@ -19,12 +19,13 @@ class EfficientMultiHeadedAttention(nn.Module):
     self.att = SSA(channels, num_heads= num_heads)
 
   def forward(self, x):
-    utils.reset(self.reducer)
-    utils.reset(self.att) # aise hi kar diye.. acha lg rha tha
+    # utils.reset(self.reducer)
+    # utils.reset(self.att) # aise hi kar diye.. acha lg rha tha
     batch_size, chnls, h, w = x.shape
     reduced_x = self.reducer(x)
     # attention needs tensor of shape (batch,channels,sequence_length)
     reduced_x = reduced_x[0]  ## kyo kiya... pata ni.. dekhna hai, abhi bs h ki shape me change tha
+    print("redX", reduced_x.shape)
     # reduced_x = torch.stack(reduced_x, dim=0)
     # print(reduced_x.shape)
     reduced_x = reduced_x.reshape(reduced_x.size(0),reduced_x.size(1),-1)
@@ -36,6 +37,7 @@ class EfficientMultiHeadedAttention(nn.Module):
     #reshape it back to (batch, channels, height, width)
     out = out.reshape(out.size(0), out.size(1), h, w)
     #print(out.sum())
+    print("ema", out.shape)
     return out
   
 #x= torch.randn((1,8,64,64))

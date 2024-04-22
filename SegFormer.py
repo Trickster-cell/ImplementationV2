@@ -4,6 +4,7 @@ from SegFormerEncoder import SegFormerEncoder
 from Decoder import Decoder
 from SegmentationHead import SegmentationHead
 
+
 class SegFormer(nn.Module):
     def __init__(
         self,
@@ -39,6 +40,9 @@ class SegFormer(nn.Module):
         )
 
     def forward(self, x):
+        # utils.reset(self.encoder)
+        # utils.reset(self.decoder)
+        # utils.reset(self.seghead)
         features = self.encoder(x)
         features = self.decoder(features[::-1])
         segmentation = self.seghead(features)

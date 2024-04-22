@@ -47,7 +47,7 @@ class SegFormerEncoder(nn.Module):
     )
 
   def forward(self,x):
-    utils.reset(self.stages)
+    # utils.reset(self.stages)
     features = []
     for stage in self.stages:
       x=stage(x)

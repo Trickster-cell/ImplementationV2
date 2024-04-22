@@ -19,7 +19,7 @@ class Decoder(nn.Module):
 
   def forward(self, features):
     new_features = []
-    utils.reset(self.stages)
+    # utils.reset(self.stages)
     for feature, stage in zip(features, self.stages):
       x=stage(feature)
       new_features.append(x)
