@@ -22,22 +22,23 @@ class EfficientMultiHeadedAttention(nn.Module):
     # utils.reset(self.reducer)
     # utils.reset(self.att) # aise hi kar diye.. acha lg rha tha
     batch_size, chnls, h, w = x.shape
+    # print("ini x", x.shape)
     reduced_x = self.reducer(x)
     # attention needs tensor of shape (batch,channels,sequence_length)
     reduced_x = reduced_x[0]  ## kyo kiya... pata ni.. dekhna hai, abhi bs h ki shape me change tha
-    print("redX", reduced_x.shape)
+    # print("redX", reduced_x.shape)
     # reduced_x = torch.stack(reduced_x, dim=0)
     # print(reduced_x.shape)
     reduced_x = reduced_x.reshape(reduced_x.size(0),reduced_x.size(1),-1)
     #print(f"reduced x shape: {reduced_x.shape}")
     x = x.reshape(x.size(0),x.size(1),-1)
-    #print(f"x shape: {x.shape}")
+    # print(f"x shape: {x.shape}")
     out= self.att(x, reduced_x, reduced_x)[0]
     #print(f"output shape: {out.shape}")
     #reshape it back to (batch, channels, height, width)
     out = out.reshape(out.size(0), out.size(1), h, w)
     #print(out.sum())
-    print("ema", out.shape)
+    # print("ema", out.shape)
     return out
   
 #x= torch.randn((1,8,64,64))

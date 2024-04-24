@@ -102,6 +102,7 @@ class SegFormerModel(pl.LightningModule):
 
 
     def forward(self,x):
+        utils.reset(self.model)
         return self.custom_forward_pass(x)
 
     def process(self, image, targets):
@@ -113,14 +114,14 @@ class SegFormerModel(pl.LightningModule):
         # spk_rec.requires_grad = True # reshaped tensor used for gradient computation
         targets_reshape = targets.reshape(-1)
 
-        loss_val = self.criterion(spk_rec, targets_reshape)
-        acc = self.metrics(spk_rec, targets_reshape)
+        loss_val = self.criterion(spk_rec, targets_reshape).requires_grad_(True)
+        acc = self.metrics(spk_rec, targets_reshape).requires_grad_(True)
         # torch.cuda.empty_cache()
         return loss_val, acc
 
-    def backward(self, loss):
-        loss.backward()
-        utils.reset(self.model)
+    # def backward(self, loss):
+    #     loss.backward()
+    #     utils.reset(self.model)
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=0.001)

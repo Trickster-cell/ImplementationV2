@@ -135,5 +135,5 @@ class SSA(nn.Module):
         output = output.transpose(1, 2).contiguous().view(output.size(0),self.d_model,-1)
         output = self.W_o(output)
         output, mem_o = self.o_lif(output, mem_o)
-        
+        # print("ssa", output.shape)
         return output, mem_o

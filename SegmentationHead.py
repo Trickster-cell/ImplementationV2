@@ -30,6 +30,7 @@ class SegmentationHead(nn.Module):
     # utils.reset(self.lif1)
     # utils.reset(self.lif2)
     x=torch.cat(x, dim=1)
+    # print("segin",x.shape)
     x=self.dense1(x)
     x = self.lif1(x)
     # x=self.relu(x)

@@ -49,5 +49,5 @@ class Mix_FFN(nn.Module):
     x=self.dense2(x)
     x=self.lif3(x)
     x=x[0]
-    print("ffn",x.shape)
+    # print("ffn",x.shape)
     return x
